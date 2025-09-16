@@ -1,12 +1,16 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import HeroSection from '@/components/HeroSection';
 import ChatInterface from '@/components/ChatInterface';
 import ResourceCards from '@/components/ResourceCards';
 import CrisisHelp from '@/components/CrisisHelp';
 import NavigationHeader from '@/components/NavigationHeader';
+import ThreeBackground from '@/components/ThreeBackground';
+import { pageTransitionVariants, gentleEntranceVariants, useReducedMotion } from '@/utils/motionVariants';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string>('home');
+  const reduceMotion = useReducedMotion();
 
   const handleStartChat = () => {
     setActiveSection('chat');
@@ -16,44 +20,98 @@ export default function Home() {
     switch (activeSection) {
       case 'chat':
         return (
-          <div className="container mx-auto px-4 py-8 max-w-4xl">
-            <div className="mb-6 text-center">
-              <h2 className="text-2xl font-medium text-foreground mb-2">
+          <motion.div 
+            className="container mx-auto px-4 py-8 max-w-4xl"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}
+          >
+            <motion.div 
+              className="mb-6 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <motion.h2 
+                className="text-2xl font-medium text-foreground mb-2"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.3, type: "spring", bounce: 0.3 }}
+              >
                 Your Safe Conversation Space
-              </h2>
-              <p className="text-muted-foreground">
+              </motion.h2>
+              <motion.p 
+                className="text-muted-foreground"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
                 Share your thoughts freely - this conversation is completely confidential
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
             <ChatInterface />
-          </div>
+          </motion.div>
         );
       
       case 'resources':
         return (
-          <div className="container mx-auto px-4 py-8 max-w-6xl">
+          <motion.div 
+            className="container mx-auto px-4 py-8 max-w-6xl"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}
+          >
             <ResourceCards />
-          </div>
+          </motion.div>
         );
       
       case 'crisis':
         return (
-          <div className="container mx-auto px-4 py-8 max-w-4xl">
-            <div className="mb-6 text-center">
-              <h2 className="text-2xl font-medium text-foreground mb-2">
+          <motion.div 
+            className="container mx-auto px-4 py-8 max-w-4xl"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}
+          >
+            <motion.div 
+              className="mb-6 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <motion.h2 
+                className="text-2xl font-medium text-foreground mb-2"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.3, type: "spring", bounce: 0.3 }}
+              >
                 Crisis Support Resources
-              </h2>
-              <p className="text-muted-foreground">
+              </motion.h2>
+              <motion.p 
+                className="text-muted-foreground"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
                 Professional help is available when you need it most
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
             <CrisisHelp />
-          </div>
+          </motion.div>
         );
       
       default:
         return (
-          <div className="space-y-16">
+          <motion.div 
+            className="space-y-16"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <div className="container mx-auto px-4 pt-8">
               <HeroSection onStartChat={handleStartChat} />
             </div>
@@ -62,42 +120,82 @@ export default function Home() {
               <ResourceCards />
             </div>
             
-            <div className="container mx-auto px-4 pb-16 max-w-4xl">
-              <div className="mb-8 text-center">
-                <h2 className="text-2xl font-medium text-foreground mb-2">
+            <motion.div 
+              className="container mx-auto px-4 pb-16 max-w-4xl"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+            >
+              <motion.div 
+                className="mb-8 text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+              >
+                <motion.h2 
+                  className="text-2xl font-medium text-foreground mb-2"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.8, type: "spring", bounce: 0.3 }}
+                >
                   Crisis Support Available
-                </h2>
-                <p className="text-muted-foreground">
+                </motion.h2>
+                <motion.p 
+                  className="text-muted-foreground"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.9 }}
+                >
                   If you need immediate help, professional support is just a call away
-                </p>
-              </div>
+                </motion.p>
+              </motion.div>
               <CrisisHelp />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         );
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <ThreeBackground />
       <NavigationHeader 
         activeSection={activeSection}
         onSectionChange={setActiveSection}
       />
-      <main>
-        {renderContent()}
+      <main className="relative z-10">
+        <AnimatePresence mode="wait">
+          <div key={activeSection}>
+            {renderContent()}
+          </div>
+        </AnimatePresence>
       </main>
       
-      <footer className="border-t py-8 mt-16">
+      <motion.footer 
+        className="border-t py-8 mt-16 relative z-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 1.0 }}
+      >
         <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-muted-foreground">
+          <motion.p 
+            className="text-sm text-muted-foreground"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.2 }}
+          >
             Your mental health matters. This platform provides support but is not a replacement for professional medical care.
-          </p>
-          <p className="text-xs text-muted-foreground mt-2">
+          </motion.p>
+          <motion.p 
+            className="text-xs text-muted-foreground mt-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.3 }}
+          >
             All conversations are confidential and not stored on our servers.
-          </p>
+          </motion.p>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   );
 }

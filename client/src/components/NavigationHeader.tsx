@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Moon, Sun, Menu, Heart, MessageCircle, BookOpen, AlertTriangle } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useTheme } from './ThemeProvider';
+import { createButtonVariants, useReducedMotion } from '@/utils/motionVariants';
 
 export default function NavigationHeader({ 
   activeSection = 'chat', 
@@ -11,6 +13,7 @@ export default function NavigationHeader({
   onSectionChange?: (section: string) => void;
 }) {
   const { theme, toggleTheme } = useTheme();
+  const reduceMotion = useReducedMotion();
 
   const navItems = [
     { id: 'chat', label: 'Chat', icon: MessageCircle },
@@ -24,9 +27,15 @@ export default function NavigationHeader({
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+              <motion.div 
+                className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center"
+                {...(reduceMotion ? {} : {
+                  whileHover: { scale: 1.05 },
+                  transition: { type: "spring", stiffness: 400, damping: 25 }
+                })}
+              >
                 <Heart className="w-4 h-4 text-primary" />
-              </div>
+              </motion.div>
               <div>
                 <h1 className="font-semibold text-lg text-foreground">
                   Sahara
@@ -42,45 +51,50 @@ export default function NavigationHeader({
                 const Icon = item.icon;
                 const isActive = activeSection === item.id;
                 return (
-                  <Button
-                    key={item.id}
-                    variant={isActive ? 'secondary' : 'ghost'}
-                    size="sm"
-                    onClick={() => onSectionChange?.(item.id)}
-                    className={`gap-2 ${isActive ? 'bg-secondary' : ''}`}
-                    data-testid={`nav-${item.id}`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    {item.label}
-                  </Button>
+                  <motion.div key={item.id} {...createButtonVariants(reduceMotion)}>
+                    <Button
+                      variant={isActive ? 'secondary' : 'ghost'}
+                      size="sm"
+                      onClick={() => onSectionChange?.(item.id)}
+                      className={`gap-2 ${isActive ? 'bg-secondary' : ''}`}
+                      data-testid={`nav-${item.id}`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      {item.label}
+                    </Button>
+                  </motion.div>
                 );
               })}
             </nav>
           </div>
 
           <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="w-9 h-9"
-              data-testid="button-theme-toggle"
-            >
-              {theme === 'light' ? (
-                <Moon className="w-4 h-4" />
-              ) : (
-                <Sun className="w-4 h-4" />
-              )}
-            </Button>
+            <motion.div {...createButtonVariants(reduceMotion)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="w-9 h-9"
+                data-testid="button-theme-toggle"
+              >
+                {theme === 'light' ? (
+                  <Moon className="w-4 h-4" />
+                ) : (
+                  <Sun className="w-4 h-4" />
+                )}
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden w-9 h-9"
-              data-testid="button-mobile-menu"
-            >
-              <Menu className="w-4 h-4" />
-            </Button>
+            <motion.div {...createButtonVariants(reduceMotion)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden w-9 h-9"
+                data-testid="button-mobile-menu"
+              >
+                <Menu className="w-4 h-4" />
+              </Button>
+            </motion.div>
           </div>
         </div>
 
@@ -91,7 +105,7 @@ export default function NavigationHeader({
               const Icon = item.icon;
               const isActive = activeSection === item.id;
               return (
-                <button
+                <motion.button
                   key={item.id}
                   onClick={() => onSectionChange?.(item.id)}
                   className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
@@ -100,10 +114,11 @@ export default function NavigationHeader({
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                   data-testid={`mobile-nav-${item.id}`}
+                  {...createButtonVariants(reduceMotion)}
                 >
                   <Icon className="w-5 h-5" />
                   <span className="text-xs">{item.label}</span>
-                </button>
+                </motion.button>
               );
             })}
           </nav>
