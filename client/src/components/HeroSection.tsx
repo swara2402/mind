@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { MessageCircle, Heart, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
-import heroImage from '@assets/generated_images/Diverse_Indian_youth_support_group_23098eaa.png';
 
 export default function HeroSection({ onStartChat }: { onStartChat: () => void }) {
   return (
@@ -11,10 +10,10 @@ export default function HeroSection({ onStartChat }: { onStartChat: () => void }
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <div 
+      <div
         className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/60"
         style={{
-          backgroundImage: `url(${heroImage})`,
+          backgroundImage: `url(@assets/generated_images/Hell.jpg)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
