@@ -1,0 +1,149 @@
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Moon, Sun, Menu, Heart, MessageCircle, BookOpen, AlertTriangle, TrendingUp, PenTool, Wind, Users, LogOut } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useTheme } from './ThemeProvider';
+import { useAuth } from './AuthProvider';
+import { createButtonVariants, useReducedMotion } from '@/utils/motionVariants';
+
+export default function NavigationHeader({ 
+  activeSection = 'chat', 
+  onSectionChange 
+}: { 
+  activeSection?: string;
+  onSectionChange?: (section: string) => void;
+}) {
+  const { theme, toggleTheme } = useTheme();
+  const reduceMotion = useReducedMotion();
+  const { user, logout } = useAuth();
+
+  const navItems = [
+    { id: 'chat', label: 'Chat', icon: MessageCircle },
+    { id: 'mood', label: 'Mood', icon: TrendingUp },
+    { id: 'journal', label: 'Journal', icon: PenTool },
+    { id: 'mindfulness', label: 'Mindfulness', icon: Wind },
+    { id: 'community', label: 'Community', icon: Users },
+    { id: 'resources', label: 'Resources', icon: BookOpen },
+    { id: 'crisis', label: 'Crisis Help', icon: AlertTriangle },
+  ];
+
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/30 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:text-white">
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3">
+              <motion.div 
+                className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center"
+                {...(reduceMotion ? {} : {
+                  whileHover: { scale: 1.05 },
+                  transition: { type: "spring", stiffness: 400, damping: 25 }
+                })}
+              >
+                <Heart className="w-4 h-4 text-primary" />
+              </motion.div>
+              <a href="/" className="cursor-pointer flex flex-col dark:text-white">
+                <h1 className="font-semibold text-lg text-foreground dark:text-white">
+                  Sahara
+                </h1>
+                <Badge variant="secondary" className="text-xs -mt-1 dark:text-white">
+                  Safe Space
+                </Badge>
+              </a>
+            </div>
+
+            <nav className="hidden md:flex items-center gap-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeSection === item.id;
+                return (
+                  <motion.div key={item.id} {...createButtonVariants(reduceMotion)}>
+                    <Button
+                      variant={isActive ? 'secondary' : 'ghost'}
+                      size="sm"
+                      onClick={() => onSectionChange?.(item.id)}
+                      className={`gap-2 ${isActive ? 'bg-secondary' : ''} dark:text-white`}
+                      data-testid={`nav-${item.id}`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      {item.label}
+                    </Button>
+                  </motion.div>
+                );
+              })}
+            </nav>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <motion.div {...createButtonVariants(reduceMotion)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="w-9 h-9"
+                data-testid="button-theme-toggle"
+              >
+                {theme === 'light' ? (
+                  <Moon className="w-4 h-4" />
+                ) : (
+                  <Sun className="w-4 h-4" />
+                )}
+              </Button>
+            </motion.div>
+
+            <motion.div {...createButtonVariants(reduceMotion)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden w-9 h-9"
+                data-testid="button-mobile-menu"
+              >
+                <Menu className="w-4 h-4" />
+              </Button>
+            </motion.div>
+
+            {user && (
+              <motion.div {...createButtonVariants(reduceMotion)}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={logout}
+                  className="w-9 h-9"
+                  data-testid="button-logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </motion.div>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className="md:hidden border-t py-3">
+          <nav className="flex justify-around">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeSection === item.id;
+              return (
+                <motion.button
+                  key={item.id}
+                  onClick={() => onSectionChange?.(item.id)}
+                  className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
+                    isActive 
+                      ? 'text-primary bg-primary/10' 
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                  data-testid={`mobile-nav-${item.id}`}
+                  {...createButtonVariants(reduceMotion)}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span className="text-xs">{item.label}</span>
+                </motion.button>
+              );
+            })}
+          </nav>
+        </div>
+      </div>
+    </header>
+  );
+}
