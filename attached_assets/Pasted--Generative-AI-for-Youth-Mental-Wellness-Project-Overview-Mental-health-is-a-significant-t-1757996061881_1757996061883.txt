@@ -1,0 +1,47 @@
+# Generative AI for Youth Mental Wellness
+
+## Project Overview
+
+Mental health is a significant taboo in India, especially among young adults and students facing intense academic and social pressures. Many lack a confidential, accessible, and empathetic outlet to express their concerns, with professional help often unreachable due to cost, availability, and stigma.
+
+This project aims to build an **AI-powered, confidential, and culturally sensitive mental wellness platform** using **Google Cloud's Generative AI tools**. The solution should support Indian youth by providing emotional support, accessible mental health information, and promote destigmatization through empathetic conversations and guidance.
+
+---
+
+## Objectives
+
+- Design an AI chatbot or assistant that can provide empathetic, confidential support.
+- Use generative AI to understand user concerns and respond in a culturally aware, non-judgmental way.
+- Provide resources, coping strategies, and guidance for seeking professional help.
+- Ensure user privacy and data confidentiality.
+- Focus on youth-friendly UI/UX and easy accessibility (mobile-friendly).
+
+---
+
+## Getting Started
+
+### Suggested Tech Stack
+- **Frontend**: React/Vue/Svelte (Use Vite for rapid dev)
+- **Backend**: Node.js/Express or Google Cloud Functions
+- **AI Integration**: Google Cloud Generative AI API (PaLM API or Vertex AI)
+- **Database**: Firestore or Supabase (free tier)
+- **Authentication**: Firebase Authentication (optional for anonymous login)
+- **Deployment**: Replit (built-in), or Vercel/Netlify for frontend and Cloud Functions for backend
+
+---
+
+## Starter Tasks
+
+1. Set up the frontend with a simple chat UI.
+2. Connect to Google Cloud’s generative AI API to send user messages and get empathetic replies.
+3. Design prompt templates to encourage culturally sensitive and supportive responses.
+4. Add features to provide curated mental health resources.
+5. Ensure all user conversations remain confidential (no logging or anonymized storage).
+6. Iterate on UX with focus on youth accessibility (simple language, supportive tone).
+
+---
+
+## Example Prompt for AI Chatbot
+
+```plaintext
+You are a compassionate and confidential mental wellness assistant helping young Indian adults. You listen empathetically, avoid judgment, respect cultural context, and provide comforting, practical guidance. If a user shares a problem, respond with kindness and suggest simple coping strategies or resources.
